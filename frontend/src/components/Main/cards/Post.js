@@ -136,7 +136,7 @@ const Post = (props) => {
 						<ul className="post-description">
 
 							{/* TITLE */}
-							<li className="post-title">{post.id+" "} <Title database={database} post={post} /></li>
+							<li className="post-title"><Title database={database} post={post} /></li>
 
 							{/* POSTER */}
 							<li className="post-username"> <span>par </span><UserName database={database} user={userdata} /> </li>
