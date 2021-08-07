@@ -1,0 +1,150 @@
+.user-card{
+	
+	display : flex;
+	flex-wrap: wrap;
+	align-content: center;
+	align-items: center;
+
+	.bloc {
+		border-radius : 0.3rem;
+		/*border : 2px solid $color-tertiary;*/
+		padding : 1rem;
+		margin : 1rem auto;
+		background-color: $color-body-back;
+		box-shadow: 0px 8px 16px $color-shadow-2;
+
+		&::first-letter{
+			color : $color-tertiary;
+		}
+
+		h1{
+			color : $color-tertiary;
+			font-size: 1.4rem;
+		}
+
+		h2 {
+			padding-bottom : 1rem;
+			font-size: 1.1rem;
+		}
+	}
+
+	.titlename{
+		width : 100%;
+		.remove-user {
+			float : right;
+			color : #800;
+			transition : color 0.2s ease-in-out, transform 0.2s ease-in-out;
+			&:hover{
+				transform : scale(1.1);
+				color : #f40;
+			}
+		}
+	}
+
+	.description {
+		width : 100%;
+		min-width : 350px;
+		height : auto;
+		border-radius: 0.5rem;
+		transition : border-radius 0.5s ease-in-out, width 0.5s ease-in-out;
+		li{
+			display:flex;
+			flex-direction: column;
+			padding-bottom : 0.5rem;
+
+			.desc-title{
+				width : 150px;
+				min-width : 100px;
+				color : $color-secondary;
+			}
+			.desc-value{
+				width : 60%;
+				min-width : 200px;
+				color : $color-tertiary;
+			}
+
+			@media (min-width: $breakpoint-tablet) {
+				flex-direction: row;
+				padding-bottom : 0;
+			}
+		}
+		@media (min-width: $breakpoint-tablet) {
+			width : 68%;
+			height : 18rem;
+			border-radius: 0.5rem 8rem 8rem 0.5rem;
+		}
+
+	}
+
+	.avatar{
+		width : 200px;
+		height : 18rem;
+		max-height : 18rem;
+		border-radius: 1rem; /*8rem 8rem 0.5rem 0.5rem;*/
+		background : $color-card-bg-1;
+		color : #000;
+		margin : 0 auto;
+		padding : 0;
+		border : 2px solid $color-secondary;
+		display : flex;
+		flex-direction: column;
+		
+		.selector{
+			margin : 0;
+			padding : 0;
+			display : flex;
+			flex-direction: column;
+		}
+
+		.input-file{
+			color: $color-secondary;
+			background-color: $color-tertiary;
+			margin : auto;
+			padding : 0.3rem 0;
+			width : 90%;
+			border-radius: 0.5rem;
+			padding: 5px 8px;
+			outline: none;
+			text-shadow: 1px 1px #fff;
+			white-space: nowrap;
+		}
+		.btn {
+			margin : 0.5rem auto;
+			padding : 0.2rem 0;
+			font-size : 1.2rem;
+			width : 90%;
+		}
+
+		h2{
+			color : $color-primary;
+			&::first-letter{
+				color : $color-secondary;
+			}
+		}
+		
+		
+
+		img{
+			object-fit : cover;
+			background : $color-cat-body-bg;
+			border: 2px solid $color-secondary;
+			border-radius: 1rem 1rem 0 0;
+			width : 200px;
+			height : auto;
+			max-height: 200px;
+			margin : 0;
+			padding : 0;
+			margin-bottom : 0.5rem;
+			transform : translate(-2px,-2px);
+			transition : transform 0.5s ease-in-out, border-radius 0.5s ease-in-out;
+			&:hover{
+				transform:scale(1.1);
+				border-radius: 1rem;
+			}
+		}
+
+		&-desc{
+			padding-left : 1rem;
+		}
+	}
+}

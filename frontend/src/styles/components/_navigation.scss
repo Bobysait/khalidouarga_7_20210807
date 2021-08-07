@@ -1,0 +1,42 @@
+.navigation{
+
+	width : 105%;
+	margin : 0 auto;
+	display : flex;
+	
+	a{
+		color : $color-navlink;
+		font-size : 1.0rem;
+		padding : 1rem 0.5rem;
+		position : relative;
+		text-decoration : none;
+	}
+	a::first-letter {
+		color: $color-tertiary;
+	}
+
+	.nav-active{
+		border-bottom: 4px solid $color-tertiary;
+	}
+
+	#nav-signout::after{
+		content : '';
+		@media (min-width: $breakpoint-tablet) {
+			content : ' Déconnecter';
+		}
+	}
+	#nav-signup::after{
+		content : '';
+		@media (min-width: $breakpoint-tablet) {
+			content : ' S\'enregistrer';
+		}
+	}
+
+	#nav-signin::after{
+		content : '';
+		@media (min-width: $breakpoint-tablet) {
+			content : ' Se Connecter';
+		}
+	}
+}
+

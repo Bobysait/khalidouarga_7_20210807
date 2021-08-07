@@ -1,0 +1,26 @@
+.trendings{
+
+	& .cards {
+		display: flex;
+		flex-direction: column;
+		flex-wrap : wrap;
+
+		@media (min-width: $breakpoint-tablet) {
+			flex-direction: row;
+		}
+	}
+	
+	& .card {
+		min-width : 300px;
+		max-height : 550px;
+
+		&-img{
+			object-fit: cover;
+			width : 100%;
+			
+			@media (min-width: $breakpoint-tablet) {
+				max-height : 200px;
+			}
+		}
+	}
+}

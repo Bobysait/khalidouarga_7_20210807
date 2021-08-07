@@ -1,0 +1,86 @@
+.topics {
+	
+	.add-topic{
+		.fas{
+			float : right;
+			color : $color-title;
+			border : 2px solid $color-tertiary;
+			border-radius : 50%;
+			padding : 0.5rem;
+			margin : 0;
+			font-size : 2rem;
+			transform : translate(0, -0.5rem);
+			transition : transform 0.2s ease-in-out;
+			&:hover{
+				transform : scale(1.1) translate(0,-0.5rem);
+			}
+		}
+	}
+
+	.topic-create{
+		margin-bottom: 2rem;
+
+		.topic-new-message {
+			height : 6rem;
+			width : 100%;
+			padding : 1rem;
+			margin : 0rem;
+			resize : vertical;
+			color:#036;
+			border-radius: 2rem 0 2rem 2rem;
+			margin-bottom : 3rem;
+		}
+
+		.flex-post {
+			display : flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-items: center;
+			width : 100%;
+			justify-content: space-between;
+		}
+		.import-file{
+			height: 3rem;
+			background-color: rgba(255,255,255,0.5);
+			border-top:1px solid grey;
+
+			&>p{
+				text-align : right;
+				padding-right : 2rem;
+			}
+		}
+		.btn {
+			left : auto;
+			right : 1rem;
+			height: 3rem;
+		}
+	}
+
+	&.cards {
+		display: flex;
+		flex-direction: row;
+		
+		@media (min-width: $breakpoint-tablet) {
+			flex-direction: row;
+		}
+	}
+
+	.card{
+
+		@media (min-width: $breakpoint-tablet) {
+			width : 100%;
+			&:hover {
+				transform : scale(1.02);
+				z-index : 2;
+			}
+		}
+		&-img{
+			width : 100%;
+			object-fit : contain;
+			border-radius: 1rem;
+			box-shadow: 0px 5px 10px $color-shadow-2;
+			margin : 1rem auto;
+		}
+	}
+
+}

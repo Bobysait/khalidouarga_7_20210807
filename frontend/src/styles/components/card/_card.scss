@@ -1,0 +1,246 @@
+.dark-outline{
+	text-shadow : -1px -1px 0 $color-outline-dark,
+				1px -1px 0 $color-outline-dark,
+				-1px  1px 0 $color-outline-dark,
+				1px  1px 0 $color-outline-dark;
+}
+.light-outline{
+	text-shadow : -1px -1px 0 $color-outline-light,
+				1px -1px 0 $color-outline-light,
+				-1px  1px 0 $color-outline-light,
+				1px  1px 0 $color-outline-light;
+}
+
+.heart-outline{
+	text-shadow : -1px -1px 0 $color-outline-for-red,
+				1px -1px 0 $color-outline-for-red,
+				-1px  1px 0 $color-outline-for-red,
+				1px  1px 0 $color-outline-for-red;
+}
+.smiley-outline{
+	text-shadow : -1px -1px 0 $color-outline-for-smiley,
+				1px -1px 0 $color-outline-for-smiley,
+				-1px  1px 0 $color-outline-for-smiley,
+				1px  1px 0 $color-outline-for-smiley;
+}
+
+.card{
+	
+	margin: 1rem auto 1rem auto;
+	color : $color-primary;
+	display: flex;
+	flex-direction: column;
+	width : 100%;
+
+	position : relative;
+	transition : transform 0.25s ease-in-out, box-shadow 0.5s ease-in-out;
+	overflow:hidden;
+
+	@media (min-width: $breakpoint-tablet) {
+		max-height : auto;
+		width : 32%;
+		&:hover {
+			transform : scale(1.1);
+			z-index : 2;
+		}
+	}
+
+	&-header{
+		display : flex;
+		flex-direction: row;
+		
+		.remove-post {
+			color : #800;
+			margin-left: auto;
+			padding : 1rem;
+			transition : color 0.2s ease-in-out, transform 0.2s ease-in-out;
+			&:hover{
+				transform : scale(1.1);
+				color : #f40;
+			}
+		}
+
+		li {
+			font-size : 1.4rem;
+		}
+		.post{
+			&-description{
+				display : flex;
+				flex-direction: column;
+			}
+			&-username {
+				font-size : 1.3rem;
+			}
+		}
+	}
+
+	&-date {
+		font-size : 1rem;
+	}
+
+	&-avatar{
+		max-width : 64px;
+		width : 64px;
+		max-height : 64px;
+		height : 64px;
+		border-radius: 100%;
+		border : 2px solid white;
+		margin-right : 1rem;
+		object-fit: cover;
+	}
+
+	h3{
+		color : $color-tertiary;
+	}
+
+	&-img{
+		width : auto;
+		border-radius: 1rem;
+		box-shadow: 0px 5px 10px $color-shadow-2;
+		margin : 1rem auto;
+		max-height : 300px;
+		@media (min-width: $breakpoint-tablet) {
+			max-height : 800px;
+			height:100%;
+		}
+	}
+	
+	.content {
+		padding : 0.5rem;
+		white-space: pre-line;
+		margin: 0 0.5rem 3rem 0.5rem;
+		border : 3px solid rgba(255,255,255,0.5);
+		background-color: rgba(255,255,255,0.25);
+	}
+
+	.reactions {
+		position : absolute;
+		left : 0;
+		right : 0;
+		bottom : 0;
+		height: 3rem;
+		background-color: rgba(255,255,255,0.5);
+		border-top:1px solid grey;
+	}
+	
+	.show-reactions{
+		padding : 0.4rem 1rem;
+		display : flex;
+		text-align: right;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		align-content: flex-end;
+		& > span {
+			padding-right : 0.5rem;
+		}
+	}
+
+	.reactions:hover>.popup-reaction, .popup-reaction:hover{
+		height : auto;
+		transform : translate(0, 0rem) scale(1);
+		opacity : 1;
+	}
+	
+	.popup-reaction{
+		position : absolute;
+		bottom : 0.25rem;
+		right : 0.5rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding : 0.2rem;
+		background-color: rgba(0,0,0,0.6);
+		border-radius: 0.5rem;
+		width : 200px;
+		opacity : 0;
+		transform : translate(0, 5rem) scale(0);
+		transition : opacity 0.5s ease-in-out, transform 0.5s ease-in-out, width 0.5s ease-in-out;
+		color : #f95;
+		font-size: 0.9rem;
+		box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+	}
+	
+	.reaction-icon{
+		margin : 0.2rem;
+		width : auto;
+		display : flex;
+		flex-direction: column;
+		align-items: center;
+		transition : transform 0.1s ease-in-out;
+		&:hover {
+			transform:scale(1.1);
+		}
+	}
+	.reactions {
+		i.fas {
+			display: inline-block;
+			border-radius: 100%;
+			box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
+			padding: 8px 9px;
+			margin-bottom : 0.2rem;
+			color : #fff;
+
+			&.smiley{
+				padding: 0 0;
+				margin : 0 0;
+				margin-bottom : 0.2rem;
+				font-size : 2.0rem;
+				background-color: #000;
+				transform : translate(0, 1px);
+			}
+
+			&.reaction-like{
+				background-color: #69f;
+				color : #69f;
+			}
+			&.reaction-love{
+				background-color : #f55;
+			}
+			&.reaction-laugh{
+				color : #fd9;
+			}
+			&.reaction-wow{
+				color : #fd9;
+			}
+			&.reaction-dislike{
+				background-color : #fb9;
+				margin-left: 0.25rem;
+				border : 1px dashed #f98;
+			}
+		}
+	}
+
+	a{
+		font-weight: 600;
+	}
+}
+
+.text-editor.card.self-comment {
+	background-color: #dfe;
+	padding : 1rem 1rem;
+
+	.text {
+		height : 6rem;
+		width : 100%;
+		padding : 1rem;
+		margin : 0rem;
+		resize : vertical;
+		color:#036;
+		border-radius: 2rem 0 2rem 2rem;
+		margin-bottom : 3rem;
+	}
+
+	.import-file{
+		position : absolute;
+		left : 0;
+		right : 0;
+		bottom : 0;
+		height: 3rem;
+		background-color: rgba(255,255,255,0.5);
+		border-top:1px solid grey;
+		&>p{
+			text-align : right;
+			padding-right : 2rem;
+		}
+	}
+}

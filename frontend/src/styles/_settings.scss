@@ -1,0 +1,231 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+$font-main : "Poppins", sans-serif;
+
+// breakpoints for responsive
+	$breakpoint-mobile		:	480px;
+	$breakpoint-tablet		:	768px;
+	$breakpoint-wide		:	1024px;
+	$breakpoint-trending	:	900px;
+
+	$max-width				:	1180px;
+
+// main theme colors
+	$color-primary			:	#000;
+	$color-secondary		:	#f26;
+	$color-secondary-alt	:	darken($color-secondary,10%);
+	$color-tertiary			:	#fa2;
+	$color-tertiary-alt		:	darken($color-tertiary,10%);
+	$color-title			:	#fff;
+	$color-navlink			:	#fff;
+	$color-link				:	#8ff;
+
+// selection and errors
+	$color-error			:	#b20;
+	$color-selection		:	#fff;
+	$color-selection-back	:	rgba(150,50,255, 0.7);
+
+// body / cards
+	$color-body				:	#ccc;
+	$color-body-back		:	#111;
+	$color-head-back		:	#000;
+	$color-main-back		:	#333;
+	$color-footer-bg		:	#000;
+
+	$color-cat-body-bg		:	#000;
+	$color-cat-title-bg		:	#222;
+	$color-cat-bg-1			:	#383838;
+	$color-cat-bg-2			:	#282828;
+
+	$color-card-bg-1		:	#fff;
+	$color-card-bg-2		:	#fed;
+	$color-card-bg-3		:	#def;
+
+	$color-trending-head-back:	rgba(255,255,255,0.6);
+
+// color for box-shadow
+	$color-shadow-1			:	rgba(0,0,0,0.2);
+	$color-shadow-2			:	rgba(0,0,0,0.3);
+	$color-shadow-3			:	rgba(0,0,0,0.4);
+	$color-shadow-4			:	rgba(0,0,0,0.5);
+
+// not used anymore ( I don't remember ... :| )
+	$color-outline-light	:	#fff;
+	$color-outline-dark		:	#000;
+	$color-outline-for-red	:	#fab;
+	$color-outline-for-smiley:	#f70;
+
+// UI colors
+	// buttons
+	$color-btn-default		:	#555;
+	$color-btn-default-bg	:	lighten($color-tertiary,15%);
+	$color-btn-hover-bg		:	darken($color-tertiary,20%);
+	$color-btn-hover		:	lighten($color-secondary,80%);
+	$color-btn-active		:	lighten($color-secondary,70%);
+	$color-btn-active-bg	:	darken($color-tertiary,10%);
+	$color-btn-disabled		:	desaturate(darken($color-tertiary,15), 50%);
+	$color-btn-disabled-bg	:	desaturate(lighten($color-tertiary,15), 50%);
+
+	// input text-area
+	$color-input-text-bg	:	#fff;
+
+
+
+
+
+
+
+// basic reset and setup
+	* {
+		box-sizing: border-box;
+		margin : 0;
+		padding : 0;
+
+		&::selection{
+			color : $color-selection;
+			background-color: $color-selection-back;
+		}
+	}
+
+	body {
+		margin : 0;
+		padding : 0;
+		font-family: $font-main;
+		color : $color-body;
+		background-color: $color-body-back;
+	}
+
+	// titles
+	h1, h2, h3, h4, h5 {
+		color : $color-title;
+		&::first-letter{
+			color : $color-tertiary;
+		}
+	}
+
+	// remove style for ul-li lists
+	li {
+		list-style-type: none;
+	}
+
+	// links
+	a {
+		text-decoration: none;
+		color : $color-link;
+		cursor: pointer;
+		&:visited {
+			color : $color-tertiary;
+		}
+	}
+	
+.container {
+	
+	max-width: $max-width;
+	width : 100%;
+
+	border-radius: 0;
+	
+	margin : 0 auto;
+	padding : 0;
+
+	@media (min-width: $breakpoint-tablet) {
+		box-shadow: 0px 4px 8px $color-shadow-2;
+		padding : 2rem;
+		width : 95%;
+		margin : 0 auto auto auto;
+	}
+}
+
+
+.btn {
+	width : auto;
+	display : inline-block;
+	
+	margin : 1rem;
+	padding : 0.5rem;
+
+	border-radius: 0.4rem;
+	border : 0; // disable borders
+	color : $color-btn-default;
+	background-color : $color-btn-default-bg;
+	box-shadow: 0px 2px 20px $color-shadow-3;
+
+	transition : box-shadow 0.4s ease-in-out;
+
+	&:hover{
+		color : $color-btn-hover;
+		background-color : $color-btn-hover-bg;
+	}
+	&-active {
+		color : $color-btn-active;
+		background-color : $color-btn-active-bg;
+		box-shadow: 0px 2px 4px $color-shadow-1;
+	}
+	&-disabled {
+		color : $color-btn-disabled;
+		background-color : $color-btn-disabled-bg;
+	}
+}
+
+label {
+	display : block;
+	width : 100%;
+	margin-bottom : 0.5rem;
+}
+
+textarea {
+	min-height : 5rem;
+	resize : vertical;
+	font-family: "Poppins", Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 1rem;
+	background-color: lighten($color-card-bg-3, 10%);
+}
+
+input {
+	background-color: $color-input-text-bg;
+	border : 0;
+	box-shadow: 0px 4px 8px $color-shadow-1;
+	border-radius: 0.4rem;
+	padding : 0.5rem;
+	width : 100%;
+	margin-bottom : 1rem;
+	font-family: "Poppins", Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 1rem;
+}
+
+.error {
+	color : $color-error;
+	font-size : 0.8rem;
+}
+
+/*
+	// Debug View borders
+	.container {
+		border : 1px solid red;
+	}
+
+	.cat-title{
+		border : 1px solid orange;
+	}
+
+	.cat-body{
+		border : 1px solid yellow;
+	}
+
+	.cards {
+		border : 1px solid lightgreen;
+	}
+
+	.card {
+		border : 1px solid green;
+	}
+*/
+
+
+.hidden {
+	display : none;
+}
+
+.navlink-hidden{
+	display : none;
+}

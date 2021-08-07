@@ -1,0 +1,60 @@
+@keyframes fadein {
+    from { opacity: 0; transform:translate(0px,-50px)}
+    to   { opacity: 1; transform:translate(0px,0px)}
+}
+
+.comment.card {
+
+	background-color: $color-card-bg-2;
+	border-radius: 0.25rem 3rem 3rem 3rem;
+	margin : 0.5rem auto 0.5rem 0;
+
+	padding : 0.5rem;
+	color : $color-primary;
+	width : 98%;
+
+	@media (min-width: $breakpoint-tablet) {
+		margin : 0.5rem auto 0 1rem;
+		padding : 1.5rem;
+		width : 90%;
+	}
+
+	&.self{
+		margin : 0.5rem 0rem 0.5rem auto;
+		background-color : $color-card-bg-3;
+		border : 2px solid $color-tertiary;
+		border-radius: 3rem 3rem 0.25rem 3rem;
+		@media (min-width: $breakpoint-tablet) {
+			margin : 0.5rem 1rem 0 auto;
+		}
+	}
+	a {
+		color : $color-secondary;
+	}
+
+	h4{
+		color : $color-primary;
+		&::first-letter{
+			color : $color-secondary;
+		}
+	}
+	
+	animation: fadein 0.5s;
+
+}
+
+
+.card-comments{
+	display : flex;
+	align-content: right;
+	justify-content: center;
+	align-items : center;
+	flex-direction: column;
+
+	.btn{
+		font-size : 1.25rem;
+		margin : 1rem 0 5rem auto;
+		width : 50%;
+		min-width : 150px;
+	}
+}

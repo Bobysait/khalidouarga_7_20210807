@@ -1,0 +1,20 @@
+.logo{
+	font-size : 1.0rem;
+	display : flex;
+	align-items: center;
+
+	margin : 0;
+	padding-top : 0rem;
+
+	img {
+		margin : 0 1rem;
+		border-radius: 100%;
+		box-shadow: 0 0 5px $color-shadow-2;
+		width : 2rem;
+	}
+
+	h1 {
+		color : $color-title;
+		letter-spacing: 3px;;
+	}
+}
