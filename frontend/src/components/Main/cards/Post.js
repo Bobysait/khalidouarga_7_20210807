@@ -81,10 +81,11 @@ const Post = (props) => {
 	
 
 	
-	const postClass =	"card "+(
+	const postClass =	"card "+ ( currentUser.id===post.userId	? "self " : "") +
+								(
 									trending						? "trending" :				// call from trendings
 									post.is_topic					? "topic" :					// else it's a topic ?
-									(currentUser.id===post.userId	? "self" : "") + " comment"	// surely it's a comment ... "our-self" comment ?
+									"comment"	// surely it's a comment ... "our-self" comment ?
 								);
 
 	// for moderators or "self"-post

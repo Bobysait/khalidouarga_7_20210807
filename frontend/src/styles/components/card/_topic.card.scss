@@ -11,6 +11,11 @@
 			border : 2px solid white;
 			margin-right : 1rem;
 		}
+
+		&.self {
+			background-color: lighten($color-card-bg-3, 3);
+			border : 3px solid darken($color-card-bg-3, 10);
+		}
 	}
 }
 
