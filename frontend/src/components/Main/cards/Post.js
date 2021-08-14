@@ -1,3 +1,5 @@
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "[iI]gnored" }]*/
+
 import React, { useEffect, useState } from 'react';
 import Attachment from './post/Attachment';
 import Comments from './post/Comments';
@@ -24,7 +26,7 @@ const Post = (props) => {
 		const currentUser = database.User.current();
 		
 	// "refresh required state" sent by children
-		const [refreshFromChildren, setRefreshFromChildren] = useState(false);
+		const [refreshFromChildrenIgnored, setRefreshFromChildren] = useState(false);
 
 	// variable to request user
 		const [userdata,setUserdata] = useState(null);
@@ -59,7 +61,7 @@ const Post = (props) => {
 		e.stopPropagation();
 		if (enableTextEditor){
 			if (textEditorValue.trim().length>3){
-				database.User.request.Comment(currentUser.id, pPost.id, textEditorValue, comAttachment, setCommentPosted,(res) => {});
+				database.User.request.Comment(currentUser.id, pPost.id, textEditorValue, comAttachment, setCommentPosted);
 			}else{
 				document.getElementById("textEditorError").innerHTML = "message trop court";
 			}

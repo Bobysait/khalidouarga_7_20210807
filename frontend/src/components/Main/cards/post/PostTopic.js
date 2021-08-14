@@ -8,15 +8,16 @@ const PostTopic = (props) => {
 	const [textEditorTitle, setTextEditorTitle] = useState("");
 	const [textEditorValue, setTextEditorValue] = useState("");
 
-	const validateNewTopic = (e) => {
-		database.User.request.Post(
-									currentUser.id,
-									textEditorTitle,
-									textEditorValue,
-									comAttachment,
-									refresh,
-									(res) => {}
-			);
+	const validateNewTopic = async (e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		await database.User.request.Post(
+											currentUser.id,
+											textEditorTitle,
+											textEditorValue,
+											comAttachment,
+											refresh
+										);
 	}
 
 	const setAnswerText = (e, pValue) => {
