@@ -13,13 +13,14 @@ exports.addTopic = (req, res, next) => {
 	const l_userId						=	parseInt(res.locals.user.id);
 
 	const l_request						=	{request : `post:post/ - add post`};
-
+	const l_file						=	validateFile(req);
+	
 	db.query("INSERT INTO gmm_posts (`id`, `title`, `content`, `url_attachment`, `is_topic`, `id_user`) VALUES (NULL, :l_title, :l_content, :l_attachment, 1, :l_userid)",
 	{
 		l_title : Checker.validateDBText(req.body.title),
 		l_content : Checker.validateDBText(req.body.content),
 		l_userid : l_userId,
-		l_attachment : validateFile(req)
+		l_attachment : l_file
 	}, (err, posts) => {
 		if(err || ((!posts) || posts.length<1)){
 			return res.status(ERROR_400).json({
@@ -34,7 +35,8 @@ exports.addTopic = (req, res, next) => {
 			return res.status(201).json({
 				...l_request,
 				postId : l_postId,
-				userId : l_userId
+				userId : l_userId,
+				url_attachment : l_file ? `${req.protocol}://${req.get('host')}/images/posts/${l_file}` : ""
 			});
 		}
 	});

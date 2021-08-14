@@ -30,7 +30,7 @@ const Topics = (props) => {
 		if (refreshFromChildren) {
 			refresh(true);
 			fetchData();
-			console.log("topics updated")
+			setRefreshFromChildren(false);
 		}
 
 	},[validation, database, refreshFromChildren, refresh]);

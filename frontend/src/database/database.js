@@ -336,7 +336,7 @@ const _UserRequester = {
 		})
 	},
 
-	Post : async (userid, title, content, file, validate, callback) => {
+	Post : async (userid, title, content, file, validate) => {
 		
 		if (!DATABASE.User.get(userid)) return "failed to comment - user not found";
 		await axios (REQUEST_PROTOTYPES.POST(title, content, file))
@@ -362,7 +362,6 @@ const _UserRequester = {
 									comments:[]
 								})
 			validate(true);
-			callback(res.data.url_attachment);
 		})
 
 		.catch((err) => {
@@ -370,7 +369,7 @@ const _UserRequester = {
 		})
 	},
 
-	Comment : (userid, postid, content, file, validate, callback) => {
+	Comment : (userid, postid, content, file, validate) => {
 		
 		if (!DATABASE.User.get(userid)) return "failed to comment - user not found";
 		if (!DATABASE.Post.get(postid)) return "failed to comment - post not found";
@@ -400,7 +399,6 @@ const _UserRequester = {
 								})
 			DATABASE.Topic.data.get(postid).comments.push(l_post);
 			validate(true);
-			if (callback) callback(l_post.url_attachment);
 		})
 
 		.catch((err) => {
@@ -739,10 +737,8 @@ const DATABASE = {
 			}
 			topic.comments=[];
 
-			console.log(DATABASE.Trendings);
 			let t = DATABASE.FindTopic(topic);
 			if (t>=0) DATABASE.Trendings.splice(t,1);
-			console.log(DATABASE.Trendings);
 
 			let id = topic.id;
 			if (DATABASE.Topic.data.has(id)) DATABASE.Topic.data.delete(id);
