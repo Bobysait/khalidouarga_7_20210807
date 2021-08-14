@@ -6,6 +6,11 @@ const { ERROR_400, ERROR_401, ERROR_402, ERROR_403, ERROR_404 } = require('../ut
 const { validateFile }					=	require('../utils/file.utils');
 const fs								=	require('fs');
 
+const formatMessageImageUrl = (req, url) => {
+	return url ? `${req.protocol}://${req.get('host')}/images/posts/${url}` : "";
+}
+
+
 exports.addTopic = (req, res, next) => {
 	if (!Checker.isValid(res.locals.user))	return res.status(400).send("Malformed ID");
 	if (!Checker.isValid(res.locals.user.id))return res.status(400).send("Malformed ID");
@@ -36,7 +41,7 @@ exports.addTopic = (req, res, next) => {
 				...l_request,
 				postId : l_postId,
 				userId : l_userId,
-				url_attachment : l_file ? `${req.protocol}://${req.get('host')}/images/posts/${l_file}` : ""
+				url_attachment : formatMessageImageUrl(req, l_file)
 			});
 		}
 	});
@@ -80,7 +85,8 @@ exports.addComment = (req, res, next) => {
 			...l_request,
 			userId : l_userId,
 			postId : l_postId,
-			url_attachment : l_file ? `${req.protocol}://${req.get('host')}/images/posts/${l_file}` : ""
+			content : req.body.content,
+			url_attachment : formatMessageImageUrl(req, l_file)
 		});
 	});
 };
@@ -125,7 +131,7 @@ exports.getTopics = (req, res, next) => {
 			let l_topics = JSON.parse(JSON.stringify(topics));
 			for (let t of l_topics){
 				t.reactions = JSON.parse(t.reactions);
-				if(t.url_attachment) t.url_attachment=`${req.protocol}://${req.get('host')}/images/posts/${t.url_attachment}`;
+				if(t.url_attachment) t.url_attachment = formatMessageImageUrl(req, t.url_attachment);
 			}
 			res.status(200).json({
 				...l_request,
@@ -162,7 +168,7 @@ exports.getTopic = (req, res, next) => {
 		}
 		let l_topic = JSON.parse(JSON.stringify(topic[0]));
 		l_topic.reactions = JSON.parse(l_topic.reactions);
-		if(l_topic.url_attachment) l_topic.url_attachment=`${req.protocol}://${req.get('host')}/images/posts/${l_topic.url_attachment}`;
+		if(l_topic.url_attachment) l_topic.url_attachment = formatMessageImageUrl(req, l_topic.url_attachment);
 		return res.status(200).json({
 			...l_request,
 			topicId : l_topicId,
@@ -204,7 +210,7 @@ exports.getComments = (req, res, next) => {
 		let l_posts = JSON.parse(JSON.stringify(posts));
 		for (let t of l_posts){
 			t.reactions = JSON.parse(t.reactions);
-			if(t.url_attachment) t.url_attachment=`${req.protocol}://${req.get('host')}/images/posts/${t.url_attachment}`;
+			if(t.url_attachment) t.url_attachment = formatMessageImageUrl(req, t.url_attachment);
 		}
 		res.status(200).json({
 			...l_request,
@@ -244,7 +250,7 @@ exports.getComment = (req, res, next) => {
 		}
 		let l_post = JSON.parse(JSON.stringify(post[0]));
 		l_post.reactions = JSON.parse(l_post.reactions);
-		if(l_post.url_attachment) l_post.url_attachment=`${req.protocol}://${req.get('host')}/images/posts/${l_post.url_attachment}`;
+		if(l_post.url_attachment) l_post.url_attachment = formatMessageImageUrl(req, l_post.url_attachment);
 		return res.status(200).json({
 			...l_request,
 			topicId : l_topicId,
@@ -264,6 +270,10 @@ function removeFileCallback (err) {
 exports.editPost = (req, res, next) => {
 	if (!Checker.isValid(req.params.id))		return res.status(400).send("Malformed ID");
 
+	if (req._userPrivileges.edit_message<1){
+		return res.status(ERROR_403).json({error : "user has not privilege to edit this post"});
+	}
+	const l_userId						=	req._tokenUserId;
 	const l_postId						=	parseInt(req.params.id);
 
 	const l_request						=	{request:`put:post/:id - edit post@${l_postId}`};
@@ -274,17 +284,22 @@ exports.editPost = (req, res, next) => {
 		if (err || !rPost) return res.status(404).json({...l_request,error:err});
 
 		let l_post						=	JSON.parse(JSON.stringify(rPost[0]));
+		if ((l_post.id_user != l_userId) && (req._userPrivileges.edit_message<2))
+			return res.status(ERROR_403).json({...l_request, error : "user has not privilege to edit this post"});
 		
 		// an image was filled with the request ?
 		let l_imageUrl					=	validateFile(req);
 		if (l_imageUrl){
-			console.log("req.file :"+req.file);
+			console.log({
+							req_file : req.file.filename,
+							l_imageUrl : l_imageUrl
+						});
 			
 			// image validated : check old image (if any) and remove it
 			let l_oldImg				=	l_post.url_attachment ? l_post.url_attachment : "";
 			if (l_oldImg!="" && l_oldImg!=req.file.filename){
 				console.log("remove old : "+l_oldImg);
-				fs.unlink(`images/users/${l_oldImg}`, removeFileCallback);
+				fs.unlink(`images/posts/${l_oldImg}`, removeFileCallback);
 			}
 		}
 	
@@ -303,7 +318,7 @@ exports.editPost = (req, res, next) => {
 		}
 		if (l_imageUrl.length>0){
 			l_updatePostParams.l_imgurl	=	l_imageUrl;
-			l_updatePostSet.push			("url_avatar=:l_imgurl");
+			l_updatePostSet.push			("url_attachment=:l_imgurl");
 		}
 
 		// if data to edit
@@ -320,7 +335,17 @@ exports.editPost = (req, res, next) => {
 		l_updatePostParams,
 		(err,result)=>{
 			if (err) return res.status(ERROR_400).json({...l_request, error:err});
-			return res.status(201).json({...l_request, message:"post updated", postId:l_userId});
+
+			let l_imgFileName = l_imageUrl ? formatMessageImageUrl(req, l_imageUrl) :
+								l_post.url_attachment ? formatMessageImageUrl(req, l_post.url_attachment) : "";
+								
+			return res.status(201).json({
+				...l_request,
+				message	:	"post updated",
+				postId	:	l_userId,
+				content	:	req.body.content,
+				url_attachment	:	l_imgFileName
+			});
 		});
 	});
 };
@@ -390,7 +415,8 @@ exports.getTrendings = (req, res, next) => {
 					"INNER JOIN gmm_users "+
 						"ON gmm_posts.id_user=gmm_users.id "+
 				(l_topicOnly ? "WHERE gmm_posts.is_topic=1 " : "")+
-					`ORDER BY gmm_posts.nb_reactions ${l_order} LIMIT :l_limit OFFSET :l_offset`,
+				"ORDER BY gmm_posts.nb_reactions "+l_order+" "+
+					"LIMIT :l_limit OFFSET :l_offset",
 	{
 		l_limit : l_limit,
 		l_offset : l_offset
@@ -405,7 +431,8 @@ exports.getTrendings = (req, res, next) => {
 			let l_trendings = JSON.parse(JSON.stringify(trandings));
 			for (let t of l_trendings){
 				t.reactions = JSON.parse(t.reactions);
-				if(t.url_attachment) t.url_attachment=`${req.protocol}://${req.get('host')}/images/posts/${t.url_attachment}`;
+				
+				if(t.url_attachment) t.url_attachment=formatMessageImageUrl(req, t.url_attachment);
 			}
 			res.status(200).json({
 				...l_request,

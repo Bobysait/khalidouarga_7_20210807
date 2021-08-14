@@ -125,6 +125,21 @@ const REQUEST_PROTOTYPES = {
 		}
 	},
 
+	UPDATE_POST : (postId, content, file) => {
+		let l_data = { content : content };
+		if (file){
+			l_data = new FormData();
+			l_data.append("content",content);
+			l_data.append("image",file);
+		}
+		return {
+			method			:	"put",
+			url				:	`${process.env.REACT_APP_API_URL}api/post/${postId}`,
+			withCredentials	:	true,
+			data			:	l_data,
+		}
+	},
+
 	DELETE_POST : (id) => {
 		return {
 			method			:	"delete",
@@ -148,6 +163,16 @@ const EMPTYREACTION = () => {
 				dislike : 0
 			}
 }
+
+const _SortByKey = (array, key) => {
+	return array.sort((a, b) => {
+		let x = a[key];
+		let y = b[key];
+		
+		return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+	});
+}
+
 const _UserRequester = {
 	
 	// authentify user with the json web token in his cookie named "jwt"
@@ -312,9 +337,9 @@ const _UserRequester = {
 	},
 
 	// User send a reaction
-	EmitReaction : (user, reaction, postId, validate  ) => {
+	emitReaction : async (user, reaction, postId, validate  ) => {
 
-		axios (REQUEST_PROTOTYPES.EMITREACTION(reaction, postId, user.id))
+		await axios (REQUEST_PROTOTYPES.EMITREACTION(reaction, postId, user.id))
 		
 		.then((res) => {
 			
@@ -336,7 +361,7 @@ const _UserRequester = {
 		})
 	},
 
-	Post : async (userid, title, content, file, validate) => {
+	post : async (userid, title, content, file, validate) => {
 		
 		if (!DATABASE.User.get(userid)) return "failed to comment - user not found";
 		await axios (REQUEST_PROTOTYPES.POST(title, content, file))
@@ -369,12 +394,12 @@ const _UserRequester = {
 		})
 	},
 
-	Comment : (userid, postid, content, file, validate) => {
+	comment : async(userid, postid, content, file, validate) => {
 		
 		if (!DATABASE.User.get(userid)) return "failed to comment - user not found";
 		if (!DATABASE.Post.get(postid)) return "failed to comment - post not found";
 
-		axios (REQUEST_PROTOTYPES.COMMENT(postid, content, file))
+		await axios (REQUEST_PROTOTYPES.COMMENT(postid, content, file))
 		
 		.then((res) => {
 			
@@ -436,7 +461,7 @@ const _PostRequester = {
 				// store post in local database and in output array
 				DATABASE.Post.create(l_p);
 				DATABASE.Trendings.push(l_p);
-				
+				console.log(l_p.id);
 			}
 			
 			// and, as usual, validate !
@@ -548,7 +573,31 @@ const _PostRequester = {
 		})
 	},
 
-	deletePost : (post, validate)=> {
+	updatePost : async (postid, content, file, validate) => {
+		
+		if (!DATABASE.Post.get(postid)) return "failed to edit post - post not found";
+		
+		// get topics
+		await axios (REQUEST_PROTOTYPES.UPDATE_POST(postid, content, file))
+
+		.then((res) => {
+			if (res.data.error){
+				console.log({message : res.data, error : res.data.error});
+				return
+			}
+			/* do something here ? */
+			let l_post = DATABASE.Post.get(postid);
+			l_post.content = res.data.content;
+			l_post.url_attachment = res.data.url_attachment;
+
+			validate(true);
+		})
+		.catch((err) => {
+			console.log({message : "failed to update post", error : err});
+		})
+	},
+
+	deletePost : (post, validate) => {
 		if (!post) return;
 
 		// get topics
@@ -754,9 +803,9 @@ const DATABASE = {
 		getComments : (id) => {
 			return DATABASE.Topic.data.get(id).comments;
 		},
-
+		
 		Array : () => {
-			return [...DATABASE.Topic.data.values()].reverse();
+			return _SortByKey([...DATABASE.Topic.data.values()], 'id');
 		}
 	},
 

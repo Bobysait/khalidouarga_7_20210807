@@ -49,14 +49,31 @@
 		display : flex;
 		flex-direction: row;
 		
-		.remove-post {
-			color : #800;
+		.manage-post{
 			margin-left: auto;
 			padding : 1rem;
-			transition : color 0.2s ease-in-out, transform 0.2s ease-in-out;
+			transform : scale(1.0);
+			.icon{
+				padding-left : 1rem;
+				transition : transform 0.2s ease-in-out, color 0.2s ease-in-out;
+				&:hover{
+					transform : scale(1.2);
+				}
+			}
+		}
+
+		.remove-post {
+			color : #800;
 			&:hover{
-				transform : scale(1.1);
 				color : #f40;
+				transform : scale(1.2);
+			}
+		}
+
+		.edit-post {
+			color : #840;
+			&:hover{
+				color : #f80;
 			}
 		}
 
@@ -215,7 +232,53 @@
 	}
 }
 
-.text-editor.card.self-comment {
+.post-editor{
+
+	padding : 1rem 1rem 2rem 1rem;
+
+	.text {
+		height : 6rem;
+		width : 100%;
+		padding : 1rem;
+		margin : 0rem;
+		resize : vertical;
+		color:#036;
+	}
+
+	.import-file{
+		border-top:1px solid grey;
+		&>p{
+			text-align : left;
+		}
+	}
+
+	&.card.self.comment {
+		background-color: #dfe;
+		padding : 1rem 1rem;
+
+		.text{
+			border-radius: 2rem 2rem 0 2rem;
+			margin-bottom : 3rem;
+		}
+		
+		.import-file{
+			position : absolute;
+			left : 0;
+			right : 0;
+			bottom : 0;
+			height: 3rem;
+			background-color: rgba(255,255,255,0.5);
+			border-top:1px solid grey;
+			&>p{
+				text-align : right;
+				padding-right : 2rem;
+			}
+		}
+	}
+}
+
+/*
+.card.self.comment {
 	background-color: #dfe;
 	padding : 1rem 1rem;
 
@@ -226,7 +289,7 @@
 		margin : 0rem;
 		resize : vertical;
 		color:#036;
-		border-radius: 2rem 0 2rem 2rem;
+		border-radius: 2rem 2rem 0 2rem;
 		margin-bottom : 3rem;
 	}
 
@@ -244,3 +307,4 @@
 		}
 	}
 }
+*/

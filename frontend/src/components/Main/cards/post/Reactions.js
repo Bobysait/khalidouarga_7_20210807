@@ -22,7 +22,7 @@ const Reactions = (props) => {
 			e.stopPropagation();
 		}
 		setUpdatedReaction(false);
-		database.User.request.EmitReaction(database.User.current(), reaction, pPost.id, (state) => {setUpdatedReaction(state); refresh(state);} )
+		database.User.request.emitReaction(database.User.current(), reaction, pPost.id, (state) => {setUpdatedReaction(state); refresh(state);} )
 		
 	};
 
