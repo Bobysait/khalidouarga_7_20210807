@@ -11,7 +11,7 @@ const PostTopic = (props) => {
 	const validateNewTopic = async (e) => {
 		e.preventDefault();
 		e.stopPropagation();
-		await database.User.request.Post(
+		await database.User.request.post(
 											currentUser.id,
 											textEditorTitle,
 											textEditorValue,
