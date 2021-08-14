@@ -92,8 +92,7 @@ const Post = (props) => {
 		e.preventDefault();
 		e.stopPropagation();
 		if (window.confirm('Confirmez la suppression')) {
-			database.Post.request.deletePost(post, setPostRemoved);
-			refresh(true);
+			database.Post.request.deletePost(post, (v) => {setPostRemoved(v); refresh(true)});
 		}
 	}
 
